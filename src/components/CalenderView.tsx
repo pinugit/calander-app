@@ -76,7 +76,7 @@ export const CalenderView = () => {
 					<Button onClick={prevMonth}>
 						{" "}
 						<ChevronLeft />
-						Prev
+						Previous
 					</Button>
 					<Button onClick={nextMonth}>
 						<ChevronRight />
@@ -84,8 +84,8 @@ export const CalenderView = () => {
 					</Button>
 				</div>
 			</CardHeader>
-			<CardContent className="flex flex-col gap-4">
-				<div className="grid grid-cols-7 gap-2 text-xl text-center ">
+			<CardContent className="flex flex-col gap-6">
+				<div className="grid grid-cols-7 gap-2 text-xl text-center pt-3 font-extrabold ">
 					<div>Sun</div>
 					<div>Mon</div>
 					<div>Tue</div>
@@ -94,10 +94,11 @@ export const CalenderView = () => {
 					<div>Fri</div>
 					<div>Sat</div>
 				</div>
-				<div className="grid grid-cols-7 gap-2 border-t-2">
+				<div className="grid grid-cols-7 gap-2 border-t-2 pt-3">
 					{currentMonthArray.map((day, index) => (
 						<div
-							className="w-[70px] h-[70px] rounded-full flex justify-center items-center text-xl hover:bg-zinc-900"
+							className={`w-[70px] h-[70px] rounded-full flex justify-center items-center text-xl hover:bg-zinc-900 ${day.color === "light" ? "text-zinc-600" : " "}`}
+							// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
 							key={index}
 						>
 							{day.date}
