@@ -1,6 +1,12 @@
 import { getMonthArray } from "@/utils/Calender";
-import { useState } from "react";
-import { Card, CardDescription, CardHeader, CardTitle } from "./ui/card";
+import { useEffect, useState } from "react";
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from "./ui/card";
 import { Button } from "./ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -27,12 +33,12 @@ export const CalenderView = () => {
 		year: number;
 	}>({
 		date: Number(todayDate[0]),
-		month: Number(todayDate[1]),
+		month: Number(todayDate[1]) - 1,
 		year: Number(todayDate[2]),
 	});
 
 	const [currentMonthArray, setCurrentMonthArray] = useState(
-		getMonthArray(currentDate.year, currentDate.month - 1),
+		getMonthArray(currentDate.year, currentDate.month),
 	);
 	console.log(currentMonthArray);
 
@@ -52,8 +58,11 @@ export const CalenderView = () => {
 		}));
 	};
 
+	useEffect(() => {
+		setCurrentMonthArray(getMonthArray(currentDate.year, currentDate.month));
+	}, [currentDate]);
 	return (
-		<Card className="h-[650px] w-[600px] p-4">
+		<Card className=" w-[650px] p-4">
 			<CardHeader className="flex flex-row justify-between">
 				<div>
 					<CardTitle className="text-3xl">
@@ -75,6 +84,27 @@ export const CalenderView = () => {
 					</Button>
 				</div>
 			</CardHeader>
+			<CardContent className="flex flex-col gap-4">
+				<div className="grid grid-cols-7 gap-2 text-xl text-center ">
+					<div>Sun</div>
+					<div>Mon</div>
+					<div>Tue</div>
+					<div>Wed</div>
+					<div>Thu</div>
+					<div>Fri</div>
+					<div>Sat</div>
+				</div>
+				<div className="grid grid-cols-7 gap-2 border-t-2">
+					{currentMonthArray.map((day, index) => (
+						<div
+							className="w-[70px] h-[70px] rounded-full flex justify-center items-center text-xl hover:bg-zinc-900"
+							key={index}
+						>
+							{day.date}
+						</div>
+					))}
+				</div>
+			</CardContent>
 		</Card>
 	);
 };
