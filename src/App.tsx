@@ -1,12 +1,12 @@
 import './App.css'
-import { getDaysInAMonth,getFirstDayOfMonth , getMonthArray} from './utils/Calander'
+import {   getMonthArray} from './utils/Calender'
 
 function App() {
 
   // console.log(getDaysInAMonth(2024,11));
   // console.log(getFirstDayOfMonth(2024,11));
   
-  console.log(getMonthArray(2024, 11));
+  console.log(getMonthArray(2025, 2));
   
   
   return (
