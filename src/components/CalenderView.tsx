@@ -9,6 +9,7 @@ import {
 } from "./ui/card";
 import { Button } from "./ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useSidebar } from "./ui/sidebar";
 
 const months = [
 	"January",
@@ -40,7 +41,8 @@ export const CalenderView = () => {
 	const [currentMonthArray, setCurrentMonthArray] = useState(
 		getMonthArray(currentDate.year, currentDate.month),
 	);
-	console.log(currentMonthArray);
+
+	const { setOpen } = useSidebar();
 
 	const nextMonth = () => {
 		setCurrentDate((prevDate) => ({
@@ -76,7 +78,7 @@ export const CalenderView = () => {
 					<Button onClick={prevMonth}>
 						{" "}
 						<ChevronLeft />
-						Previous
+						Prev
 					</Button>
 					<Button onClick={nextMonth}>
 						<ChevronRight />
@@ -96,8 +98,12 @@ export const CalenderView = () => {
 				</div>
 				<div className="grid grid-cols-7 gap-2 border-t-2 pt-3">
 					{currentMonthArray.map((day, index) => (
+						// biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
 						<div
-							className={`w-[70px] h-[70px] rounded-full flex justify-center items-center text-xl hover:bg-zinc-900 ${day.color === "light" ? "text-zinc-600" : " "}`}
+							onClick={() => {
+								setOpen(true);
+							}}
+							className={`w-[70px] h-[70px] rounded-full flex justify-center items-center text-xl hover:bg-[--hover] cursor-pointer ${day.color === "light" ? "text-zinc-500" : " "}`}
 							// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
 							key={index}
 						>
