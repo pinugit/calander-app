@@ -8,7 +8,7 @@ import {
 	CardTitle,
 } from "./ui/card";
 import { Button } from "./ui/button";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Download } from "lucide-react";
 import { useSidebar } from "./ui/sidebar";
 import { eventContext } from "@/context/eventContext";
 
@@ -65,6 +65,23 @@ export const CalenderView = () => {
 		}));
 	};
 
+	const downloadJSON = (month: number) => {
+		const filteredData = context?.calenderEvents.filter(
+			(entry) => entry.date.month === month,
+		);
+
+		const jsonString = JSON.stringify(filteredData, null, 2);
+		const blob = new Blob([jsonString], { type: "application/json" });
+
+		const url = URL.createObjectURL(blob);
+
+		const a = document.createElement("a");
+		a.href = url;
+		a.download = `events_month_${month}.json`;
+		a.click();
+		URL.revokeObjectURL(url);
+	};
+
 	useEffect(() => {
 		setCurrentMonthArray(getMonthArray(currentDate.year, currentDate.month));
 	}, [currentDate]);
@@ -80,6 +97,14 @@ export const CalenderView = () => {
 					</CardDescription>
 				</div>
 				<div className="flex gap-2 justify-center items-center">
+					<Button
+						onClick={() =>
+							selectedDate ? downloadJSON(selectedDate?.month) : null
+						}
+					>
+						<Download />
+						JSON
+					</Button>
 					<Button onClick={prevMonth}>
 						{" "}
 						<ChevronLeft />
