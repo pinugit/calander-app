@@ -10,7 +10,7 @@ function App() {
 	return (
 		<ThemeProvider>
 			<EventProvider>
-				<SidebarProvider>
+				<SidebarProvider defaultOpen={false}>
 					<div className="h-screen w-screen flex justify-center items-center bg-zinc-1000 relative">
 						<div className="absolute top-3 right-3 flex gap-2 justify-center items-center">
 							<ModeToggle />

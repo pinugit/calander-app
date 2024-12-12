@@ -4,6 +4,7 @@ interface selectedDate {
 	date: number;
 	month: number;
 	year: number;
+	day: number;
 }
 type eventContext = {
 	selectedDate: selectedDate | null;
@@ -13,11 +14,7 @@ type eventContext = {
 export const eventContext = createContext<eventContext | null>(null);
 
 export function EventProvider({ children }: { children: React.ReactNode }) {
-	const [selectedDate, setSelectedDate] = useState<selectedDate | null>({
-		date: 25,
-		month: 4,
-		year: 2023,
-	});
+	const [selectedDate, setSelectedDate] = useState<selectedDate | null>(null);
 	return (
 		<eventContext.Provider value={{ selectedDate, setSelectedDate }}>
 			{children}
