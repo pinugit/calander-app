@@ -1,5 +1,5 @@
 import { getMonthArray } from "@/utils/Calender";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
 	Card,
 	CardContent,
@@ -10,6 +10,7 @@ import {
 import { Button } from "./ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useSidebar } from "./ui/sidebar";
+import { eventContext } from "@/context/eventContext";
 
 const months = [
 	"January",
@@ -43,6 +44,10 @@ export const CalenderView = () => {
 	);
 
 	const { setOpen } = useSidebar();
+
+	const context = useContext(eventContext);
+	const setSelectedDate = context?.setSelectedDate;
+	const selectedDate = context?.selectedDate;
 
 	const nextMonth = () => {
 		setCurrentDate((prevDate) => ({
@@ -102,8 +107,18 @@ export const CalenderView = () => {
 						<div
 							onClick={() => {
 								setOpen(true);
+								if (setSelectedDate) {
+									setSelectedDate({
+										date: day.date,
+										month: day.month,
+										year: day.year,
+									});
+								}
 							}}
-							className={`w-[70px] h-[70px] rounded-full flex justify-center items-center text-xl hover:bg-[--hover] cursor-pointer ${day.color === "light" ? "text-zinc-500" : " "} ${day.date === currentDate.date ? "bg-zinc-200 text-zinc-950" : ""}`}
+							className={`w-[70px] h-[70px] rounded-full flex justify-center items-center text-xl hover:bg-[--hover]  cursor-pointer 
+								${day.color === "light" ? "text-zinc-500" : " "} 
+								${day.date === currentDate.date ? "bg-zinc-200 text-zinc-950 " : ""} 
+								${day.date === selectedDate?.date && day.month === selectedDate.month && day.year === selectedDate.year ? "bg-[--hover]" : ""}`}
 							// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
 							key={index}
 						>

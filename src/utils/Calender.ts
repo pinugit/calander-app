@@ -24,6 +24,8 @@ export function getMonthArray(year: number, month: number) {
     monthArrayWithDays.push({
       date: dateTemp.getDate(),
       day: dateTemp.getDay(),
+      month: dateTemp.getMonth(),
+      year: dateTemp.getFullYear(),
       color: "light",
     });
   }
@@ -35,6 +37,8 @@ export function getMonthArray(year: number, month: number) {
     monthArrayWithDays.push({
       date: dateTemp.getDate(),
       day: dateTemp.getDay(),
+      month: dateTemp.getMonth(),
+      year: dateTemp.getFullYear(),
       color: "dark",
     });
   }
@@ -47,9 +51,12 @@ export function getMonthArray(year: number, month: number) {
     monthArrayWithDays.push({
       date: dateTemp.getDate(),
       day: dateTemp.getDay(),
+      month: dateTemp.getMonth(),
+      year: dateTemp.getFullYear(),
       color: "light",
     });
   }
+  console.log(monthArrayWithDays);
 
   return monthArrayWithDays;
 }
