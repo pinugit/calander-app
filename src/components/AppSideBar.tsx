@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/sidebar";
 import { eventContext } from "@/context/eventContext";
 import { useContext } from "react";
-import { Card, CardDescription } from "./ui/card";
+import { Card, CardDescription, CardHeader } from "./ui/card";
 
 const months = [
 	"January",
@@ -59,9 +59,7 @@ export function AppSidebar() {
 							<p>{hour}</p>
 						</div>
 					))}
-					<Card className="absolute top-[1208px] h-[240px] w-[400px] mx-9 box-border">
-						an event{" "}
-					</Card>
+					{/* <Card className="absolute top-[1208px] h-[240px] w-[400px] mx-9 box-border "></Card> */}
 				</SidebarGroup>
 			</SidebarContent>
 		</Sidebar>
