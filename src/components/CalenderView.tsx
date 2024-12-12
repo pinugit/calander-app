@@ -106,7 +106,6 @@ export const CalenderView = () => {
 						// biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
 						<div
 							onClick={() => {
-								setOpen(true);
 								if (setSelectedDate) {
 									setSelectedDate({
 										date: day.date,
@@ -115,6 +114,7 @@ export const CalenderView = () => {
 										day: day.day,
 									});
 								}
+								setOpen(true);
 							}}
 							className={`w-[70px] h-[70px] rounded-full flex justify-center items-center text-xl hover:bg-[--hover]  cursor-pointer 
 								${day.color === "light" ? "text-zinc-500" : " "} 

@@ -10,6 +10,7 @@ interface eventContext {
 	selectedDate: selectedDate | null;
 	setSelectedDate: (date: selectedDate) => void;
 	addEvents: (date: selectedDate, events: event) => void;
+	calenderEvents: calenderEvent[];
 }
 
 interface event {
@@ -55,7 +56,9 @@ export function EventProvider({ children }: { children: React.ReactNode }) {
 	}, [calenderEvents]);
 
 	return (
-		<eventContext.Provider value={{ selectedDate, setSelectedDate, addEvents }}>
+		<eventContext.Provider
+			value={{ selectedDate, setSelectedDate, addEvents, calenderEvents }}
+		>
 			{children}
 		</eventContext.Provider>
 	);
