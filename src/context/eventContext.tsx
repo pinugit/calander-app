@@ -11,6 +11,7 @@ interface eventContext {
 	setSelectedDate: (date: selectedDate) => void;
 	addEvents: (date: selectedDate, events: event) => void;
 	calenderEvents: calenderEvent[];
+	removeEvents: (date: selectedDate, events: event) => void;
 }
 
 interface event {
@@ -55,6 +56,23 @@ export function EventProvider({ children }: { children: React.ReactNode }) {
 		});
 	};
 
+	const removeEvents = (newDate: selectedDate, newEvent: event) => {
+		setCalenderEvents((prevCalenderEvents) => {
+			return prevCalenderEvents.map((event) =>
+				event.date.date === newDate.date &&
+				event.date.month === newDate.month &&
+				event.date.year === newDate.year
+					? {
+							...event,
+							events: event.events.filter(
+								(anEvent) => anEvent.startingTime !== newEvent.startingTime,
+							),
+						}
+					: event,
+			);
+		});
+	};
+
 	useEffect(() => {
 		localStorage.setItem("event", JSON.stringify(calenderEvents));
 		console.log(calenderEvents);
@@ -62,7 +80,13 @@ export function EventProvider({ children }: { children: React.ReactNode }) {
 
 	return (
 		<eventContext.Provider
-			value={{ selectedDate, setSelectedDate, addEvents, calenderEvents }}
+			value={{
+				selectedDate,
+				setSelectedDate,
+				addEvents,
+				calenderEvents,
+				removeEvents,
+			}}
 		>
 			{children}
 		</eventContext.Provider>

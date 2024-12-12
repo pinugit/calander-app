@@ -18,6 +18,7 @@ import { Textarea } from "./ui/textarea";
 import { TimeSelector } from "./TimeSelector";
 import { toast } from "sonner";
 import { Toaster } from "./ui/sonner";
+import { Trash2 } from "lucide-react";
 
 const months = [
 	"January",
@@ -68,7 +69,6 @@ export function AppSidebar() {
 			return todayEvents ? todayEvents.events : [];
 		},
 	);
-	const [canCreateEvent, setCanCreateEvent] = useState(true);
 
 	const onSetStartingTime = (time: string) => {
 		setStartingTime(Number(time));
@@ -103,7 +103,6 @@ export function AppSidebar() {
 				(anEvent.startingTime >= startingTime &&
 					anEvent.endingTime <= endingTime), // Completely within
 		);
-		setCanCreateEvent(!hasOverlap);
 
 		if (selectedDate && !hasOverlap) {
 			context?.addEvents(selectedDate, {
@@ -123,6 +122,10 @@ export function AppSidebar() {
 		setEndingTime(0);
 		setEventTitle("");
 		setEventDescription("");
+	};
+
+	const handleEventRemoval = (date, event) => {
+		context?.removeEvents(date, event);
 	};
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
@@ -175,8 +178,16 @@ export function AppSidebar() {
 								height: `${(anEvent.endingTime - anEvent.startingTime) * 120}px`,
 							}}
 						>
+							<Button
+								variant={"destructive"}
+								className="absolute top-2 right-2"
+								onClick={() => handleEventRemoval(selectedDate, anEvent)}
+							>
+								<Trash2 />
+							</Button>
 							<CardHeader>
-								<CardTitle>{anEvent.title}</CardTitle>
+								<CardTitle className="text-xl">{anEvent.title}</CardTitle>
+								<CardDescription>{anEvent.description}</CardDescription>
 							</CardHeader>
 						</Card>
 					))}
@@ -221,10 +232,10 @@ export function AppSidebar() {
 								onChange={handleDescriptionChange}
 							/>
 						</div>
-						{startingTime >= endingTime ? (
+						{startingTime >= endingTime || eventTitle === "" ? (
 							<>
 								<CardDescription>
-									starting time cannot be ahead of ending time
+									check the title or starting time is greater then ending time
 								</CardDescription>
 								<Button disabled>Create</Button>
 							</>
