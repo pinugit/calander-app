@@ -1,50 +1,31 @@
-# React + TypeScript + Vite
+#calender assignment app
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a calendar assignment app made with reactjs ,shadchui and vite. all the calender logic is implemented by myself you can refer the calender.ts and calenderView.tsx file for it.
 
-Currently, two official plugins are available:
+1. Event Provider: A context provider that manages the state of the calendar events.
+2. Add Events: A function that allows adding new events to the calendar.
+3. Calendar Events: A state that stores the list of calendar events.
+4. Selected Date: A state that stores the currently selected date.
+5. Set Selected Date: A function that allows setting the selected date.
+6. Event Context: A context that provides access to the calendar events and selected date.
+7. Event List: A component that displays the list of events for the selected date.
+8. Event Details: A component that displays the details of a selected event. 
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Expanding the ESLint configuration
+## Steps to run the code locally
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+1. **Clone the repository**:  
+   ```bash
+   git clone https://github.com/your-repo/event-calendar-app.git
+   ```
 
-- Configure the top-level `parserOptions` property like this:
+2. **Install dependencies**:  
+   ```bash
+   npm install
+   ```
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+3. **Start the app**:  
+   ```bash
+   npm start
+   ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
