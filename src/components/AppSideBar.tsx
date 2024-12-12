@@ -1,11 +1,13 @@
 import {
 	Sidebar,
+	SidebarContent,
+	SidebarGroup,
 	SidebarHeader,
 	SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { eventContext } from "@/context/eventContext";
 import { useContext } from "react";
-import { CardDescription } from "./ui/card";
+import { Card, CardDescription } from "./ui/card";
 
 const months = [
 	"January",
@@ -34,9 +36,10 @@ const days = [
 export function AppSidebar() {
 	const context = useContext(eventContext);
 	const selectedDate = context?.selectedDate;
+	const hours = Array.from({ length: 25 }, (_, i) => i);
 	return (
 		<Sidebar variant="floating" side="right" className="">
-			<SidebarHeader className="flex flex-row justify-between p-5">
+			<SidebarHeader className="flex flex-row justify-between m-4 ">
 				{selectedDate && (
 					<div className=" flex flex-col ">
 						<h1 className="text-4xl">
@@ -49,6 +52,18 @@ export function AppSidebar() {
 				)}
 				<SidebarTrigger />
 			</SidebarHeader>
+			<SidebarContent className="flex flex-col mx-5 mb-5 h-auto border-2 rounded-lg">
+				<SidebarGroup className="relative">
+					{hours.map((hour) => (
+						<div className="border-b-2 box-border h-[120px] text-xl" key={hour}>
+							<p>{hour}</p>
+						</div>
+					))}
+					<Card className="absolute top-[1208px] h-[240px] w-[400px] mx-9 box-border">
+						an event{" "}
+					</Card>
+				</SidebarGroup>
+			</SidebarContent>
 		</Sidebar>
 	);
 }
