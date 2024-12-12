@@ -51,6 +51,13 @@ interface event {
 	description: string;
 }
 
+interface dateType {
+	date: number;
+	month: number;
+	year: number;
+	day: number;
+}
+
 export function AppSidebar() {
 	const context = useContext(eventContext);
 	const selectedDate = context?.selectedDate;
@@ -124,7 +131,7 @@ export function AppSidebar() {
 		setEventDescription("");
 	};
 
-	const handleEventRemoval = (date, event) => {
+	const handleEventRemoval = (date: dateType, event: event) => {
 		context?.removeEvents(date, event);
 	};
 
@@ -181,7 +188,11 @@ export function AppSidebar() {
 							<Button
 								variant={"destructive"}
 								className="absolute top-2 right-2"
-								onClick={() => handleEventRemoval(selectedDate, anEvent)}
+								onClick={() =>
+									selectedDate
+										? handleEventRemoval(selectedDate, anEvent)
+										: null
+								}
 							>
 								<Trash2 />
 							</Button>
