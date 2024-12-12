@@ -103,7 +103,7 @@ export const CalenderView = () => {
 							onClick={() => {
 								setOpen(true);
 							}}
-							className={`w-[70px] h-[70px] rounded-full flex justify-center items-center text-xl hover:bg-[--hover] cursor-pointer ${day.color === "light" ? "text-zinc-500" : " "}`}
+							className={`w-[70px] h-[70px] rounded-full flex justify-center items-center text-xl hover:bg-[--hover] cursor-pointer ${day.color === "light" ? "text-zinc-500" : " "} ${day.date === currentDate.date ? "bg-zinc-200 text-zinc-950" : ""}`}
 							// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
 							key={index}
 						>

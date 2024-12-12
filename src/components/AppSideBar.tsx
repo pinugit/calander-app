@@ -1,8 +1,5 @@
 import {
 	Sidebar,
-	SidebarContent,
-	SidebarFooter,
-	SidebarGroup,
 	SidebarHeader,
 	SidebarTrigger,
 } from "@/components/ui/sidebar";
