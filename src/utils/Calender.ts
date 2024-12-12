@@ -56,7 +56,6 @@ export function getMonthArray(year: number, month: number) {
       color: "light",
     });
   }
-  console.log(monthArrayWithDays);
 
   return monthArrayWithDays;
 }

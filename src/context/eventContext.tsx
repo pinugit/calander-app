@@ -14,8 +14,8 @@ interface eventContext {
 }
 
 interface event {
-	startingTime: string;
-	endingTime: string;
+	startingTime: number;
+	endingTime: number;
 	title: string;
 	description: string;
 }
@@ -30,7 +30,7 @@ export const eventContext = createContext<eventContext | null>(null);
 export function EventProvider({ children }: { children: React.ReactNode }) {
 	const [selectedDate, setSelectedDate] = useState<selectedDate | null>(null);
 	const [calenderEvents, setCalenderEvents] = useState<calenderEvent[]>(() => {
-		const getCalenderEvents = localStorage.getItem("calenderEvents");
+		const getCalenderEvents = localStorage.getItem("event");
 		return getCalenderEvents ? JSON.parse(getCalenderEvents) : [];
 	});
 
@@ -51,7 +51,7 @@ export function EventProvider({ children }: { children: React.ReactNode }) {
 	};
 
 	useEffect(() => {
-		localStorage.setItem("calendarEvents", JSON.stringify(calenderEvents));
+		localStorage.setItem("event", JSON.stringify(calenderEvents));
 		console.log(calenderEvents);
 	}, [calenderEvents]);
 

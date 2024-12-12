@@ -7,8 +7,8 @@ import {
 	SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { eventContext } from "@/context/eventContext";
-import { useContext, useState } from "react";
-import { CardDescription } from "./ui/card";
+import { type SetStateAction, useContext, useEffect, useState } from "react";
+import { Card, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import { Button } from "./ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
 import { DialogTrigger } from "@radix-ui/react-dialog";
@@ -41,19 +41,80 @@ const days = [
 	"Saturday",
 ];
 
+interface event {
+	startingTime: number;
+	endingTime: number;
+	title: string;
+	description: string;
+}
+
 export function AppSidebar() {
 	const context = useContext(eventContext);
 	const selectedDate = context?.selectedDate;
+	const calenderEvents = context?.calenderEvents;
 	const [startingTime, setStartingTime] = useState<number>(0);
 	const [endingTime, setEndingTime] = useState(0);
+	const [eventTitle, setEventTitle] = useState("");
+	const [eventDescription, setEventDescription] = useState("");
+	const [eventForSelectedDay, setEventForSelectedDay] = useState<event[]>(
+		() => {
+			const todayEvents = calenderEvents?.find(
+				(newEvent) => newEvent.date === selectedDate,
+			);
+			console.log(todayEvents?.events);
+
+			return todayEvents ? todayEvents.events : [];
+		},
+	);
 
 	const onSetStartingTime = (time: string) => {
 		setStartingTime(Number(time));
 		console.log(time);
 	};
+
 	const onSetEndingTime = (time: string) => {
 		setEndingTime(Number(time));
 	};
+
+	const handleTitleChange = (event: {
+		target: { value: SetStateAction<string> };
+	}) => {
+		setEventTitle(event.target.value);
+	};
+
+	const handleDescriptionChange = (event: {
+		target: { value: SetStateAction<string> };
+	}) => {
+		setEventDescription(event.target.value);
+	};
+
+	const handleEventCreation = () => {
+		console.log(startingTime, endingTime, eventTitle, eventDescription);
+		if (selectedDate) {
+			context?.addEvents(selectedDate, {
+				title: eventTitle,
+				description: eventDescription,
+				startingTime: startingTime,
+				endingTime: endingTime,
+			});
+		}
+	};
+
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+	useEffect(() => {
+		const todayEvents = calenderEvents?.find(
+			(newEvent) =>
+				newEvent.date.date === selectedDate?.date &&
+				newEvent.date.month === selectedDate.month &&
+				newEvent.date.year === selectedDate.year,
+		);
+
+		if (todayEvents?.events) {
+			setEventForSelectedDay(todayEvents?.events);
+		} else {
+			setEventForSelectedDay([]);
+		}
+	}, [selectedDate]);
 
 	const hours = Array.from({ length: 25 }, (_, i) => i);
 	return (
@@ -78,7 +139,17 @@ export function AppSidebar() {
 							<p>{hour}</p>
 						</div>
 					))}
-					{/* <Card className="absolute top-[1208px] h-[240px] w-[400px] mx-9 box-border "></Card> */}
+					{eventForSelectedDay?.map((anEvent, index) => (
+						<Card
+							// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+							key={index}
+							className="absolute top-[1208px] h-[240px] w-[400px] mx-9 box-border "
+						>
+							<CardHeader>
+								<CardTitle>{anEvent.title}</CardTitle>
+							</CardHeader>
+						</Card>
+					))}
 				</SidebarGroup>
 			</SidebarContent>
 			<SidebarFooter>
@@ -97,6 +168,7 @@ export function AppSidebar() {
 								id="title"
 								placeholder="Event Title"
 								className="w-full"
+								onChange={handleTitleChange}
 							/>
 						</div>
 						<div className="flex w-full grid-cols-2 justify-between items-center gap-1.5">
@@ -116,6 +188,7 @@ export function AppSidebar() {
 								placeholder="Type your Description here."
 								id="description"
 								className="h-[150px]"
+								onChange={handleDescriptionChange}
 							/>
 						</div>
 						{startingTime >= endingTime ? (
@@ -126,7 +199,7 @@ export function AppSidebar() {
 								<Button disabled>Create</Button>
 							</>
 						) : (
-							<Button>Create</Button>
+							<Button onClick={handleEventCreation}>Create</Button>
 						)}
 					</DialogContent>
 				</Dialog>
