@@ -98,6 +98,10 @@ export function AppSidebar() {
 				endingTime: endingTime,
 			});
 		}
+		setStartingTime(0);
+		setEndingTime(0);
+		setEventTitle("");
+		setEventDescription("");
 	};
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
@@ -114,7 +118,7 @@ export function AppSidebar() {
 		} else {
 			setEventForSelectedDay([]);
 		}
-	}, [selectedDate]);
+	}, [selectedDate, calenderEvents]);
 
 	const hours = Array.from({ length: 25 }, (_, i) => i);
 	return (
@@ -132,7 +136,7 @@ export function AppSidebar() {
 				)}
 				<SidebarTrigger />
 			</SidebarHeader>
-			<SidebarContent className="flex flex-col mx-5 mb-2 h-auto border-2 rounded-lg">
+			<SidebarContent className="relative flex flex-col mx-5 mb-2 h-auto border-2 rounded-lg">
 				<SidebarGroup className="relative">
 					{hours.map((hour) => (
 						<div className="border-b-2 box-border h-[120px] text-xl" key={hour}>
@@ -140,10 +144,19 @@ export function AppSidebar() {
 						</div>
 					))}
 					{eventForSelectedDay?.map((anEvent, index) => (
+						// <Card
+						// 	// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+						// 	key={index}
+						// 	className={`absolute top-[${anEvent.startingTime}120px] h-[${anEvent.endingTime - anEvent.startingTime * 120}px] w-[400px] mx-9 box-border `}
+						// >
 						<Card
 							// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
 							key={index}
-							className="absolute top-[1208px] h-[240px] w-[400px] mx-9 box-border "
+							className="absolute  w-[400px] mx-9 box-border "
+							style={{
+								top: `${anEvent.startingTime * 120 + 7}px`,
+								height: `${(anEvent.endingTime - anEvent.startingTime) * 120}px`,
+							}}
 						>
 							<CardHeader>
 								<CardTitle>{anEvent.title}</CardTitle>
@@ -199,7 +212,11 @@ export function AppSidebar() {
 								<Button disabled>Create</Button>
 							</>
 						) : (
-							<Button onClick={handleEventCreation}>Create</Button>
+							<DialogTrigger className="w-full">
+								<Button className="w-full" onClick={handleEventCreation}>
+									Create
+								</Button>
+							</DialogTrigger>
 						)}
 					</DialogContent>
 				</Dialog>

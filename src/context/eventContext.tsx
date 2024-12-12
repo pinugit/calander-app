@@ -37,7 +37,10 @@ export function EventProvider({ children }: { children: React.ReactNode }) {
 	const addEvents = (newDate: selectedDate, newEvent: event) => {
 		setCalenderEvents((prevCalenderEvents) => {
 			const existingEvent = prevCalenderEvents.find(
-				(event) => event.date === newDate,
+				(event) =>
+					event.date.date === newDate.date &&
+					event.date.month === newDate.month &&
+					event.date.year === newDate.year,
 			);
 			if (existingEvent) {
 				return prevCalenderEvents.map((event) =>
