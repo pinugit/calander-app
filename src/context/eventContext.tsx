@@ -44,7 +44,9 @@ export function EventProvider({ children }: { children: React.ReactNode }) {
 			);
 			if (existingEvent) {
 				return prevCalenderEvents.map((event) =>
-					event.date === newDate
+					event.date.date === newDate.date &&
+					event.date.month === newDate.month &&
+					event.date.year === newDate.year
 						? { ...event, events: [...event.events, newEvent] }
 						: event,
 				);

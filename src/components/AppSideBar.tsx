@@ -16,6 +16,8 @@ import { Input } from "./ui/input";
 import { Label } from "@radix-ui/react-dropdown-menu";
 import { Textarea } from "./ui/textarea";
 import { TimeSelector } from "./TimeSelector";
+import { toast } from "sonner";
+import { Toaster } from "./ui/sonner";
 
 const months = [
 	"January",
@@ -66,6 +68,7 @@ export function AppSidebar() {
 			return todayEvents ? todayEvents.events : [];
 		},
 	);
+	const [canCreateEvent, setCanCreateEvent] = useState(true);
 
 	const onSetStartingTime = (time: string) => {
 		setStartingTime(Number(time));
@@ -90,13 +93,31 @@ export function AppSidebar() {
 
 	const handleEventCreation = () => {
 		console.log(startingTime, endingTime, eventTitle, eventDescription);
-		if (selectedDate) {
+
+		const hasOverlap = eventForSelectedDay.some(
+			(anEvent) =>
+				(anEvent.startingTime < startingTime &&
+					anEvent.endingTime > startingTime) ||
+				(anEvent.startingTime < endingTime &&
+					anEvent.endingTime > endingTime) ||
+				(anEvent.startingTime >= startingTime &&
+					anEvent.endingTime <= endingTime), // Completely within
+		);
+		setCanCreateEvent(!hasOverlap);
+
+		if (selectedDate && !hasOverlap) {
 			context?.addEvents(selectedDate, {
 				title: eventTitle,
 				description: eventDescription,
 				startingTime: startingTime,
 				endingTime: endingTime,
 			});
+			console.log("created ");
+		} else {
+			toast("Event timings are overlapping", {
+				description: "there are already events assigned to that time",
+			});
+			console.log("not created");
 		}
 		setStartingTime(0);
 		setEndingTime(0);
@@ -123,6 +144,7 @@ export function AppSidebar() {
 	const hours = Array.from({ length: 25 }, (_, i) => i);
 	return (
 		<Sidebar variant="floating" side="right" className="">
+			<Toaster />
 			<SidebarHeader className="flex flex-row justify-between m-4 ">
 				{selectedDate && (
 					<div className=" flex flex-col ">
@@ -144,11 +166,6 @@ export function AppSidebar() {
 						</div>
 					))}
 					{eventForSelectedDay?.map((anEvent, index) => (
-						// <Card
-						// 	// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-						// 	key={index}
-						// 	className={`absolute top-[${anEvent.startingTime}120px] h-[${anEvent.endingTime - anEvent.startingTime * 120}px] w-[400px] mx-9 box-border `}
-						// >
 						<Card
 							// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
 							key={index}
