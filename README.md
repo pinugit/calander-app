@@ -29,3 +29,5 @@ This is a calendar assignment app made with reactjs ,shadchui and vite. all the 
    npm start
    ```
 
+deployed site : https://calander-app.vercel.app/
+
